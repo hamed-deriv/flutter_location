@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 void main() => runApp(const App());
 
@@ -50,7 +51,12 @@ class _HomePageState extends State<HomePage> {
 
                   _updateLiveLocation();
                 },
-              )
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                child: const Text('Open Google Map'),
+                onPressed: _openGoogleMap,
+              ),
             ],
           ),
         ),
@@ -96,5 +102,14 @@ class _HomePageState extends State<HomePage> {
         setState(() {});
       },
     );
+  }
+
+  Future<void> _openGoogleMap() async {
+    final String googleMapUrl =
+        'https://www.google.com/maps/search/?api=1&query=${_position?.latitude},${_position?.longitude}';
+
+    await canLaunchUrlString(googleMapUrl)
+        ? await launchUrlString(googleMapUrl)
+        : throw Exception('Unable to lunch $googleMapUrl.');
   }
 }
