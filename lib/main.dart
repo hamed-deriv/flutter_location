@@ -47,6 +47,8 @@ class _HomePageState extends State<HomePage> {
                   _position = await _getCurrentLocation();
 
                   setState(() {});
+
+                  _updateLiveLocation();
                 },
               )
             ],
@@ -79,5 +81,17 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Geolocator.getCurrentPosition();
+  }
+
+  void _updateLiveLocation() {
+    const LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 5,
+    );
+
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position newPosition) => _position = newPosition);
+
+    setState(() {});
   }
 }
