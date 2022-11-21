@@ -16,23 +16,38 @@ class App extends StatelessWidget {
       );
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({required this.title, Key? key}) : super(key: key);
 
   final String title;
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Position? _position;
+
+  @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(elevation: 0, title: Text(title)),
+        appBar: AppBar(elevation: 0, title: Text(widget.title)),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text('Current Location of the User'),
+              Text(
+                _position == null
+                    ? 'Waiting for location...'
+                    : 'Latitude: ${_position?.latitude}, Longitude: ${_position?.longitude}',
+              ),
               const SizedBox(height: 16),
               ElevatedButton(
                 child: const Text('Get Current Location'),
-                onPressed: _getCurrentLocation,
+                onPressed: () async {
+                  _position = await _getCurrentLocation();
+
+                  setState(() {});
+                },
               )
             ],
           ),
