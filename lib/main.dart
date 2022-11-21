@@ -16,7 +16,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  const HomePage({required this.title, Key? key}) : super(key: key);
 
   final String title;
 
