@@ -89,9 +89,12 @@ class _HomePageState extends State<HomePage> {
       distanceFilter: 5,
     );
 
-    Geolocator.getPositionStream(locationSettings: locationSettings)
-        .listen((Position newPosition) => _position = newPosition);
+    Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+      (Position newPosition) {
+        _position = newPosition;
 
-    setState(() {});
+        setState(() {});
+      },
+    );
   }
 }
